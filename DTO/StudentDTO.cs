@@ -11,25 +11,14 @@ namespace DTO
     {
         private int studentID;
         private string fullName, email, imageUrl, address;
-        private bool gender;
+        private bool gender;   
 
-        public StudentDTO(DataRow row)
+       public StudentDTO ()
         {
-            this.StudentID = (int)row["StudentID"];
-            this.FullName = (string)row["FullName"];
-            this.Gender = (bool)row["Gender"];
-            this.Address = (string)row["Address"];
-            this.Email = (string)row["Email"];
-            this.ImageUrl = (string)row["ImageUrl"];
-        }
-
-        public StudentDTO(int studentID, string fullName, bool gender, string address, string email, string imageUrl)
-        {
-            this.StudentID = studentID;
             this.FullName = fullName;
             this.Gender = gender;
-            this.Address = address;
             this.Email = email;
+            this.Address = address;
             this.ImageUrl = imageUrl;
         }
 

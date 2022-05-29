@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace DAL
     public class StudentDAL
     {
         private static StudentDAL instance;
+        string connStr = @"Data Source=.\PHANNHATTAN;Initial Catalog=DemoThreeLayer;Integrated Security=True";
 
         public static StudentDAL Instance
         {
@@ -22,55 +24,120 @@ namespace DAL
 
             }
             private set { instance = value; }
+        }   
+
+        public DataTable GetAllStudent()
+        {          
+            string sqlGet = "SELECT * FROM [Student]";
+            DataTable table;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                table = new DataTable();
+                SqlDataAdapter sqlData = new SqlDataAdapter(sqlGet, conn);
+                sqlData.Fill(table);
+            }
+            return table;
         }
 
-        private StudentDAL() { }
-
-        public List<StudentDTO> GetAllStudent()
-        {
-            List<StudentDTO> productList = new List<StudentDTO>();
-            string sql = "SELECT * FROM [Student]";
-            DataTable data = DataProvider.Instance.ExcuteQuery(sql);
-            foreach (DataRow item in data.Rows)
+        public StudentDTO GetStudentByName(string name)
+        {          
+            using (SqlConnection conn = new SqlConnection(connStr))
             {
-                StudentDTO product = new StudentDTO(item);
-                productList.Add(product);
+                string sqlGet = string.Format(@"SELECT * FROM [Student] WHERE FullName = N'{0}'", name);
+                
+                //cmd.Parameters.AddWithValue("@name", name);
+
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sqlGet, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    StudentDTO student = new StudentDTO
+                    {
+                        FullName = (string)reader["FullName"],
+                        Gender = (Boolean)reader["Gender"],
+                        Email = (string) reader["Email"],
+                        Address = (string)reader["Address"],
+                        ImageUrl = (string) reader["ImageUrl"]
+                    };               
+                    return student;
+                }
+                return null;
             }
-            return productList;
         }
 
-        public List<StudentDTO> GetStudentByID(int id)
+        public DataTable GetStudentByNameToFind(string name)
         {
-            List<StudentDTO> productList = new List<StudentDTO>();
-            string sql = "SELECT * FROM [Student] WHERE StudentID = @StudentID ";
-            DataTable data = DataProvider.Instance.ExcuteQuery(sql, new object[] { id });
-            foreach (DataRow item in data.Rows)
+            DataTable table;
+            using (SqlConnection conn = new SqlConnection(connStr))
             {
-                StudentDTO product = new StudentDTO(item);
-                productList.Add(product);
+               
+                string sqlGet = string.Format(@"SELECT * FROM [Student] WHERE FullName LIKE N'%{0}%'", name);
+                conn.Open();
+                table = new DataTable();
+                SqlDataAdapter sqlData = new SqlDataAdapter(sqlGet, conn);
+                sqlData.Fill(table);
             }
-            return productList;
+            return table;
         }
 
         public bool AddStudent(StudentDTO student)
-        {
-            string sql = string.Format("INSERT INTO [Student](FullName, Gender, Email, Address,ImageUrl) VALUES(N'{0}', {1}, {2}, N'{3}', N'{4}')", student.FullName, student.Gender, student.Email, student.Address, student.ImageUrl);
-            int result = DataProvider.Instance.ExcuteNonQuery(sql);
-            return result > 0;
-        }
+        {          
+            string sqlAdd = @"INSERT INTO [Student](FullName, Gender, Email, Address, ImageUrl) 
+                            VALUES(@FullName, @Gender, @Email, @Address, @ImageUrl)";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlCommand cmd = new SqlCommand(sqlAdd, conn);
+                cmd.Parameters.AddWithValue("@FullName", student.FullName);
+                cmd.Parameters.AddWithValue("@Gender", student.Gender);
+                cmd.Parameters.AddWithValue("@Email", student.Email);
+                cmd.Parameters.AddWithValue("@Address", student.Address);
+                cmd.Parameters.AddWithValue("@ImageUrl", student.ImageUrl);
+   
+                conn.Open();
+                int result = (int)cmd.ExecuteNonQuery();
+                return (result >= 1);
+            }
 
-        public bool EditStudent(StudentDTO student)
-        {
-            string sql = string.Format("UPDATE [Student] SET FullName = N'{0}', Gender = {1} , Email = {2}, Address = N'{3}', ImageUrl = {4}", student.FullName, student.Gender, student.Email, student.Address, student.ImageUrl);
-            int result = DataProvider.Instance.ExcuteNonQuery(sql);
-            return result > 0;
         }
 
         public bool DeleteStudent(string name)
         {
-            string sql = "DELETE FROM [Student] WHERE FullName = @name ";
-            int result = DataProvider.Instance.ExcuteNonQuery(sql, new object[] { name });
-            return result > 0;
+            string sqlDelete = "DELETE FROM [Student] WHERE FullName = @FullName ";
+            
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlCommand cmd = new SqlCommand(sqlDelete, conn);
+                cmd.Parameters.AddWithValue("@FullName", name);
+
+                conn.Open();
+                int result = (int)cmd.ExecuteNonQuery();
+                return (result >= 1);
+            }
+        }
+
+        public bool UpdateStudent(StudentDTO student)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string sql = string.Format(@"UPDATE Student SET FullName = @FullName, Gender = @Gender, Email = @Email, Address = @Address, ImageUrl = @ImageUrl WHERE FullName = @FullName");
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@FullName", student.FullName);
+                cmd.Parameters.AddWithValue("@Gender", student.Gender);
+                cmd.Parameters.AddWithValue("@Email", student.Email);
+                cmd.Parameters.AddWithValue("@Address", student.Address);
+                cmd.Parameters.AddWithValue("@ImageUrl", student.ImageUrl);
+                conn.Open();
+                int result = (int)cmd.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
 
     }
