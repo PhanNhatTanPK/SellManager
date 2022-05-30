@@ -23,7 +23,7 @@
 </head>
 <body style="background-color: #83d8fe;">
     <nav class="navbar navbar-dark bg-dark">
-        <ul><li style="color:#ffffff">QUẢN LÝ SINH VIÊN</li></ul>        
+        <ul><li style="color:#ffffff; list-style:none; margin-top:15px;">QUẢN LÝ SINH VIÊN</li></ul>        
     </nav>
     <form id="form1" runat="server" class="row g-3" style="max-width: 900px; margin: auto">
         <div class="row g-3">
@@ -69,19 +69,19 @@
         </div>
            <div class="row">
                 <div class="col">
-                    <asp:Button ID="btnAdd" class="btn btn-success" style="padding:5px 30px" runat="server" Text="ADD" OnClick="btnAdd_Click"/>
+                    <asp:Button ID="btnAdd" class="btn btn-success" style="padding:5px 30px; margin-left:15px" runat="server" Text="ADD" OnClick="btnAdd_Click"/>
                 </div>
                 <div class="col">
-                    <asp:Button ID="btnEdit" class="btn btn-warning" style="padding:5px 30px" runat="server" Text="EDIT" OnClick="btnEdit_Click"/>
+                    <asp:Button ID="btnEdit" class="btn btn-warning" style="padding:5px 30px; margin-left:15px" runat="server" Text="EDIT" OnClick="btnEdit_Click"/>
                 </div>
                 <div class="col">
-                  <asp:Button ID="btnDelete" class="btn btn-danger" style="padding:5px 30px" runat="server" Text="DELETE" OnClick="btnDelete_Click"/>
+                  <asp:Button ID="btnDelete" class="btn btn-danger" style="padding:5px 30px; margin-left:15px" runat="server" Text="DELETE" OnClick="btnDelete_Click"/>
                 </div>
                <div class="col">
-                  <asp:Button ID="btnClear" class="btn btn-secondary" style="padding:5px 30px" runat="server" Text="Clear" OnClick="btnClear_Click"/>
+                  <asp:Button ID="btnClear" class="btn btn-secondary" style="padding:5px 30px; margin-left:15px" runat="server" Text="Clear" OnClick="btnClear_Click"/>
                 </div>
                <div class="col">
-                  <asp:Button ID="btnFind" class="btn btn-info" style="padding:5px 30px" runat="server" Text="FIND" OnClick="btnFind_Click"/>
+                  <asp:Button ID="btnFind" class="btn btn-info" style="padding:5px 30px; margin-left:15px" runat="server" Text="FIND" OnClick="btnFind_Click"/>
                 </div>
           </div>   
 

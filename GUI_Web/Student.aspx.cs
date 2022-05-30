@@ -69,8 +69,8 @@ namespace GUI_Web
         protected void btnEdit_Click(object sender, EventArgs e)
         {
             StudentDTO student = CreatStudent();
-            StudentBLL studentBLL = new StudentBLL();
-            bool result = studentBLL.UpdateStudent(student);
+            
+            bool result = StudentBLL.Instance.UpdateStudent(student);
             if (result)
             {
                 label.Text = "Bạn đã cập nhật thành công";
