@@ -45,9 +45,7 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 string sqlGet = string.Format(@"SELECT * FROM [Student] WHERE FullName = N'{0}'", name);
-                
-                //cmd.Parameters.AddWithValue("@name", name);
-
+            
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sqlGet, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -122,7 +120,8 @@ namespace DAL
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string sql = string.Format(@"UPDATE Student SET FullName = @FullName, Gender = @Gender, Email = @Email, Address = @Address, ImageUrl = @ImageUrl WHERE FullName = @FullName");
+                string sql = string.Format(@"UPDATE Student SET Gender = @Gender, Email = @Email, Address = @Address, ImageUrl = @ImageUrl 
+                                            WHERE FullName = @FullName");
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@FullName", student.FullName);
                 cmd.Parameters.AddWithValue("@Gender", student.Gender);

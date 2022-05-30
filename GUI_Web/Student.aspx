@@ -23,8 +23,7 @@
 </head>
 <body style="background-color: #83d8fe;">
     <nav class="navbar navbar-dark bg-dark">
-        <ul><li style="color:#ffffff">Home</li></ul>
-        
+        <ul><li style="color:#ffffff">QUẢN LÝ SINH VIÊN</li></ul>        
     </nav>
     <form id="form1" runat="server" class="row g-3" style="max-width: 900px; margin: auto">
         <div class="row g-3">
