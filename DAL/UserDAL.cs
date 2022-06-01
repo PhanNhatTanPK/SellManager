@@ -71,7 +71,6 @@ namespace DAL
             DataTable table;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-
                 string sqlGet = string.Format(@"SELECT * FROM [User] WHERE FullName LIKE N'%{0}%'", name);
                 conn.Open();
                 table = new DataTable();
@@ -144,12 +143,14 @@ namespace DAL
 
         public DataSet GetUser()
         {
-            
-            SqlConnection conn = new SqlConnection(connStr);
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(@"SELECT UserId, FullName FROM [User]",conn);               
+            DataSet ds;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(@"SELECT UserId, FullName FROM [User]", conn);
                 da.Fill(ds, "User");
-            
+            };
+          
             return ds;
         }
     }

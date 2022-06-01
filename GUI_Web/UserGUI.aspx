@@ -40,6 +40,7 @@
     <nav class="navbar navbar-dark bg-dark">
         <ul >
             <li> <h4>SELL MANAGER</h4></li>
+            <li ><a class="text" href="UserGUI.aspx">USER</a></li>
             <li ><a class="text" href="ProductGUI.aspx">PRODUCT</a></li>
             <li ><a class="text" href="RecipeGUI.aspx">RECIPE</a></li>
         </ul>        

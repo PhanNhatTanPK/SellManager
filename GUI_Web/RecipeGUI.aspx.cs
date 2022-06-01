@@ -10,21 +10,23 @@ using System.Web.UI.WebControls;
 namespace GUI_Web
 {
     public partial class RecipeGUI : System.Web.UI.Page
-    {
-        int id;
+    {     
         protected void Page_Load(object sender, EventArgs e)
         {
-            listUser.DataSource = UserBLL.Instance.GetUser();
-            listUser.DataTextField = "FullName";
-            listUser.DataValueField = "UserId";
-            listUser.DataBind();
+            if(!IsPostBack)
+            {
+                listUser.DataSource = UserBLL.Instance.GetUser();
+                listUser.DataTextField = "FullName";
+                listUser.DataValueField = "UserId";
+                listUser.DataBind();
 
-            listProduct.DataSource = ProductBLL.Instance.GetProduct();
-            listProduct.DataTextField = "ProductName";
-            listProduct.DataValueField = "ProductId";
-            listProduct.DataBind();
+                listProduct.DataSource = ProductBLL.Instance.GetProduct();
+                listProduct.DataTextField = "ProductName";
+                listProduct.DataValueField = "ProductId";
+                listProduct.DataBind();
 
-            LoadData();
+                LoadData();
+            }           
         }
         public void LoadData()
         {
@@ -34,7 +36,6 @@ namespace GUI_Web
 
         public RecipeDTO CreatRecipe()
         {
-
             RecipeDTO recipe = new RecipeDTO
             {
                 UserId = Int32.Parse(listUser.SelectedValue.ToString()),
@@ -55,7 +56,7 @@ namespace GUI_Web
         {
             RecipeDTO recipe = CreatRecipe();
             ProductDTO product = ProductBLL.Instance.GetProductById(recipe.ProductId);
-            if(recipe.Amounts < product.Amount)
+            if (recipe.Amounts < product.Amount)
             {
                 bool result = RecipeBLL.Instance.AddRecipe(recipe);
                 if (result)
@@ -66,17 +67,17 @@ namespace GUI_Web
                 else
                 {
                     label.Text = "Add failed recipe";
-                }               
+                }
             }
             else
             {
-                label.Text = "Khong du so luong cung cap";
+                label.Text = "Not enough to provide";
             }
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
+            int id  = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
             bool result = RecipeBLL.Instance.DeleteRecipe(id);
             if (result)
             {
@@ -94,16 +95,25 @@ namespace GUI_Web
         {
             txtAmount.Text = "";
             label.Text = "";
+            LoadData();
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-             id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
+            int id  = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
             RecipeDTO recipe = RecipeBLL.Instance.GetRecipeById(id);
             if (recipe != null)
             {
                 FillData(recipe);
             }
         }
+
+        protected void btnFind_Click(object sender, EventArgs e)
+        {
+            int userId = Int32.Parse(listUser.SelectedValue.ToString());
+            GridView1.DataSource = RecipeBLL.Instance.GetRecipeByUserId(userId);
+            GridView1.DataBind();
+        }
+       
     }
 }

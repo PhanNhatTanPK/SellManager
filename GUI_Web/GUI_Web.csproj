@@ -69,7 +69,6 @@
   <ItemGroup>
     <Content Include="ProductGUI.aspx" />
     <Content Include="RecipeGUI.aspx" />
-    <Content Include="Student.aspx" />
     <Content Include="UserGUI.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -88,13 +87,6 @@
     </Compile>
     <Compile Include="RecipeGUI.aspx.designer.cs">
       <DependentUpon>RecipeGUI.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Student.aspx.cs">
-      <DependentUpon>Student.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Student.aspx.designer.cs">
-      <DependentUpon>Student.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserGUI.aspx.cs">
       <DependentUpon>UserGUI.aspx</DependentUpon>

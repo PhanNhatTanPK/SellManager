@@ -35,6 +35,7 @@
             <li> <h4>SELL MANAGER</h4></li>
             <li ><a class="text" href="UserGUI.aspx">USER</a></li>
             <li ><a class="text" href="ProductGUI.aspx">PRODUCT</a></li>
+            <li ><a class="text" href="RecipeGUI.aspx">RECIPE</a></li>
         </ul>        
     </nav>
     <form id="form1" runat="server" class="row g-3" style="max-width: 900px; margin: auto">
@@ -64,6 +65,9 @@
                 </div>
                <div class="col">
                   <asp:Button ID="btnClear" class="btn btn-secondary" style="padding:5px 30px; margin-left:15px" runat="server" Text="CLEAR" OnClick="btnClear_Click"/>
+                </div>
+               <div class="col">
+                  <asp:Button ID="btnFind" class="btn btn-secondary" style="padding:5px 30px; margin-left:15px" runat="server" Text="FIND" OnClick="btnFind_Click"/>
                 </div>
           </div>   
 

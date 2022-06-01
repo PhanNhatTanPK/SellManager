@@ -45,14 +45,19 @@ namespace BLL
             return RecipeDAL.Instance.DeleteRecipe(id);
         }
 
-        public bool DeleteRecipeWithProduct(int id)
+        public bool DeleteRecipeByProductId(int id)
         {
-            return RecipeDAL.Instance.DeleteRecipeWithProduct(id);
+            return RecipeDAL.Instance.DeleteRecipeByProductId(id);
         }
 
-        public bool DeleteRecipeWithUser(int id)
+        public bool DeleteRecipeByUserId(int id)
         {
-            return RecipeDAL.Instance.DeleteRecipeWithUser(id);
+            return RecipeDAL.Instance.DeleteRecipeByUserId(id);
+        }
+
+        public DataTable GetRecipeByUserId(int id)
+        {
+            return RecipeDAL.Instance.GetRecipeByUserId(id);
         }
     }
 }

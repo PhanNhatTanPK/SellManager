@@ -10,8 +10,7 @@ using System.Web.UI.WebControls;
 namespace GUI_Web
 {
     public partial class ProductGUI : System.Web.UI.Page
-    {
-        int id;
+    {       
         protected void Page_Load(object sender, EventArgs e)
         {
             LoadData();
@@ -63,7 +62,7 @@ namespace GUI_Web
         protected void btnEdit_Click1(object sender, EventArgs e)
         {
             ProductDTO product = CreatProduct();
-            id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
+            int id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
 
             bool result = ProductBLL.Instance.UpdateProduct(product, id);
             if (result)
@@ -79,8 +78,8 @@ namespace GUI_Web
 
         protected void btnDelete_Click1(object sender, EventArgs e)
         {
-            id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
-            RecipeBLL.Instance.DeleteRecipeWithProduct(id);
+            int id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
+            RecipeBLL.Instance.DeleteRecipeByProductId(id);
             bool result = ProductBLL.Instance.DeleteProduct(id);
             if(result)
             {

@@ -162,10 +162,12 @@ namespace DAL
         }
         public DataSet GetProduct()
         {
-            DataSet ds = new DataSet();
+            DataSet ds;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT [ProductId], [ProductName] FROM [Product]", conn);               
+                conn.Open();
+                SqlDataAdapter da = new SqlDataAdapter("SELECT [ProductId], [ProductName] FROM [Product]", conn);
+                ds = new DataSet();
                 da.Fill(ds, "Product");
             }
             return ds;

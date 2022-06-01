@@ -28,7 +28,8 @@ namespace DAL
 
         public DataTable GetAllRecipe()
         {
-            string sqlGet = @"SELECT [Recipe].RecipeId, [Recipe].Amounts, [User].FullName, [Product].ProductName FROM [Recipe], [User], [Product] WHERE [Recipe].UserId = [User].UserId AND [Recipe].ProductId = [Product].ProductId";
+            string sqlGet = @"SELECT [Recipe].RecipeId, [Recipe].Amounts, [User].FullName, [Product].ProductName FROM [Recipe], [User], [Product] 
+                                WHERE [Recipe].UserId = [User].UserId AND [Recipe].ProductId = [Product].ProductId";
             DataTable table;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -56,13 +57,27 @@ namespace DAL
                     {
                         UserId = (int)reader["UserId"],
                         ProductId = (int)reader["ProductId"],
-                        Amounts = (int)reader["Amounts"],
-                       
+                        Amounts = (int)reader["Amounts"],                       
                     };
                     return recipe;
                 }
                 return null;
             }
+        }
+
+        public DataTable GetRecipeByUserId(int id)
+        {
+            DataTable table;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string sqlGet = string.Format(@"SELECT [Recipe].RecipeId, [Recipe].Amounts, [User].FullName, [Product].ProductName FROM [Recipe], [User], [Product] 
+                                                WHERE [Recipe].UserId = {0} AND [Recipe].UserId = [User].UserId AND [Recipe].ProductId = [Product].ProductId ", id);
+                conn.Open();
+                table = new DataTable();
+                SqlDataAdapter sqlData = new SqlDataAdapter(sqlGet, conn);
+                sqlData.Fill(table);
+            }
+            return table;
         }
 
         public bool AddRecipe(RecipeDTO recipe)
@@ -98,7 +113,7 @@ namespace DAL
             }
         }
 
-        public bool DeleteRecipeWithProduct(int id)
+        public bool DeleteRecipeByProductId(int id)
         {
             string sqlDelete = "DELETE FROM [Recipe] WHERE ProductId = @ProductId ";
 
@@ -113,7 +128,7 @@ namespace DAL
             }
         }
 
-        public bool DeleteRecipeWithUser(int id)
+        public bool DeleteRecipeByUserId(int id)
         {
             string sqlDelete = "DELETE FROM [Recipe] WHERE UserId = @UserId ";
 
