@@ -55,5 +55,10 @@ namespace BLL
         {
             return UserDAL.Instance.GetUserByNameToFind(name);
         }
+
+        public DataSet GetUser()
+        {
+            return UserDAL.Instance.GetUser();
+        }
     }
 }

@@ -52,14 +52,39 @@ namespace DAL
 
                 if (reader.Read())
                 {
-                    ProductDTO student = new ProductDTO
+                    ProductDTO product = new ProductDTO
                     {
                         ProductName = (string)reader["ProductName"],
                         Origin = (string)reader["Origin"],
                         Amount = (int)reader["Amount"],
                         Price = (int)reader["Price"],                        
                     };
-                    return student;
+                    return product;
+                }
+                return null;
+            }
+        }
+
+        public ProductDTO GetProductById(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string sqlGet = string.Format(@"SELECT * FROM [Product] WHERE ProductId = '{0}'", id);
+
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sqlGet, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    ProductDTO product = new ProductDTO
+                    {
+                        ProductName = (string)reader["ProductName"],
+                        Origin = (string)reader["Origin"],
+                        Amount = (int)reader["Amount"],
+                        Price = (int)reader["Price"],
+                    };
+                    return product;
                 }
                 return null;
             }
@@ -101,7 +126,7 @@ namespace DAL
 
         public bool DeleteProduct(int id)
         {
-            string sqlDelete = "DELETE FROM [Product] WHERE ProductId = @ProductId ";
+            string sqlDelete = "DELETE FROM [Product] WHERE [Product].ProductId = @ProductId";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -134,6 +159,16 @@ namespace DAL
                 }
                 return false;
             }
+        }
+        public DataSet GetProduct()
+        {
+            DataSet ds = new DataSet();
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT [ProductId], [ProductName] FROM [Product]", conn);               
+                da.Fill(ds, "Product");
+            }
+            return ds;
         }
     }
 }

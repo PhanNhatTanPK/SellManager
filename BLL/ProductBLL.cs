@@ -35,6 +35,11 @@ namespace BLL
             return ProductDAL.Instance.GetProductByName(name);
         }
 
+        public ProductDTO GetProductById(int id)
+        {
+            return ProductDAL.Instance.GetProductById(id);
+        }
+
         public bool AddProduct(ProductDTO product)
         {
             return ProductDAL.Instance.AddProduct(product);
@@ -54,6 +59,11 @@ namespace BLL
         public DataTable GetProductByNameToFind(string name)
         {
             return ProductDAL.Instance.GetProductByNameToFind(name);
+        }
+
+        public DataSet GetProduct()
+        {
+            return ProductDAL.Instance.GetProduct();
         }
     }
 }

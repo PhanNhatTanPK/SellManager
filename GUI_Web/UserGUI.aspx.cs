@@ -79,6 +79,7 @@ namespace GUI_Web
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
+            RecipeBLL.Instance.DeleteRecipeWithUser(id);
             bool result = UserBLL.Instance.DeleteUser(id);
             if(result)
             {

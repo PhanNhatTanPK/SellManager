@@ -141,6 +141,17 @@ namespace DAL
                 return false;
             }
         }
+
+        public DataSet GetUser()
+        {
+            
+            SqlConnection conn = new SqlConnection(connStr);
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter(@"SELECT UserId, FullName FROM [User]",conn);               
+                da.Fill(ds, "User");
+            
+            return ds;
+        }
     }
 }
 

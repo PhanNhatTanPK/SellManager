@@ -80,6 +80,7 @@ namespace GUI_Web
         protected void btnDelete_Click1(object sender, EventArgs e)
         {
             id = Int32.Parse(GridView1.SelectedRow.Cells[0].Text);
+            RecipeBLL.Instance.DeleteRecipeWithProduct(id);
             bool result = ProductBLL.Instance.DeleteProduct(id);
             if(result)
             {
